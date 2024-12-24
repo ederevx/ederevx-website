@@ -1,6 +1,6 @@
 # about
 
-This is my [website](https://ederekun.github.io) being built from scratch as a hobby for learning and also a part of my portfolio. 
+This is my [website](https://ederevx.github.io) being built from scratch as a hobby for learning and also a part of my portfolio. 
 
 The following packages are currently being used for this website:
 
