@@ -30,7 +30,7 @@ export function set_content(element) {
 }
 
 function generate_main_section_content(section, content) {
-	return '<br id=${section.name}>' + con.generate_html_content(section.container, content);
+	return `<br id=${section.name}>` + con.generate_html_content(section.container, content);
 }
 
 const get_about_content = function() {
