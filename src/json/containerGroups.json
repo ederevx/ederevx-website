@@ -1,0 +1,62 @@
+{
+    "root": {
+        "containerType": "fluid",
+        "element": "div",
+        "children": {
+            "nav": {
+                "containerType": "fluid",
+                "element": "nav",
+                "children": {
+                    "inner_nav": {
+                        "containerType": "generic",
+                        "element": "nav",
+                        "classPreset": "inner_nav",
+                        "children": {
+                            "inner_nav_header": {
+                                "containerType": "generic",
+                                "element": "header",
+                                "classPreset": "inner_nav_header",
+                                "content": "html-php",
+                                "children": {}
+                            }
+                        }
+                    }
+                }
+            },
+            "main": {
+                "containerType": "fluid",
+                "element": "main",
+                "children": {
+                    "about": {
+                        "containerType": "main",
+                        "content": "html-php",
+                        "children": {}
+                    },
+                    "projects": {
+                        "containerType": "main",
+                        "content": "html-php",
+                        "children": {}
+                    },
+                    "contact": {
+                        "containerType": "main",
+                        "content": "html-php",
+                        "children": {}
+                    }
+                }
+            },
+            "footer": {
+                "containerType": "fluid",
+                "element": "footer",
+                "children": {
+                    "footer_content": {
+                        "containerType": "generic",
+                        "element": "p",
+                        "classPreset": "footer_content",
+                        "content": "Copyright (C) 2026, Edrick Sinsuan",
+                        "children": {}
+                    }
+                }
+            }
+        }
+    }
+}
