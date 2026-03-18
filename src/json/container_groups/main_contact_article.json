@@ -1,0 +1,44 @@
+{
+    "content": {
+        "classPreset": "fluid",
+        "children": {
+            "row": {
+                "classPreset": "row",
+                "children": {
+                    "ids": [1, 2, 3],
+                    "containerType": "double",
+                    "element": ["div", "h1"],
+                    "classPreset": ["col", "h2"],
+                    "contentPerID": {
+                        "1": "Github",
+                        "2": "LinkedIn",
+                        "3": "Email"
+                    },
+                    "childrenPerID": {
+                        "1": {
+                            "link": {
+                                "containerType": "href",
+                                "classPreset": "button",
+                                "content": "https://github.com/ederevx"
+                            }
+                        },
+                        "2": {
+                            "link": {
+                                "containerType": "href",
+                                "classPreset": "button",
+                                "content": "https://www.linkedin.com/in/ederevx"
+                            }
+                        },
+                        "3": {
+                            "link": {
+                                "containerType": "href",
+                                "classPreset": "button",
+                                "content": "mailto:evcsinsuan@gmail.com"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

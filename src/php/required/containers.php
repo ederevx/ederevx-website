@@ -12,6 +12,7 @@ class GenericContainer {
     protected $parent = null;
     private static $rootContainer = null;
     private static $containerClasses = null;
+    const ID_DEPTH = 2; /* How many parents' full name included in ID */
 
     public function __construct($id, $element, $classPreset) {
         $this->setID($id);
@@ -31,17 +32,25 @@ class GenericContainer {
         $this->id = "{$id}";
     }
 
+    /* Try to generate predictable but unique as possible IDs for everyone */
     public function getID() {
         $publicID = "";
 
-        /* Append ID by the parent IDs' first letter for public ID generation */
-        $pointer = $this;
-        while ($pointer->parent && $pointer->parent !== self::$rootContainer) {
-            $publicID = $pointer->parent->id[0] . $publicID; /* Only get raw ID first char */
-            $pointer = $pointer->parent;
-        }
-        if ($publicID !== "") {
-            $publicID .= "_";
+        /* Append ID by the parent ID accordingly */
+        $ptr = $this;
+        $depth = 0;
+        while ($ptr->parent && $ptr->parent !== self::$rootContainer) {
+            if ($depth < self::ID_DEPTH) {
+                $publicID = $ptr->parent->id . "_" . $publicID;
+            } else {
+                if ($depth == self::ID_DEPTH) {
+                    $publicID = "_" . $publicID;
+                }
+                /* Limit to first character beyond ID_DEPTH */
+                $publicID = $ptr->parent->id[0] . $publicID;
+            }
+            $ptr = $ptr->parent;
+            $depth++;
         }
 
         $publicID .= $this->id;
@@ -167,6 +176,8 @@ class GenericContainer {
                 return new MainContainer($id);
             case "button":
                 return new ButtonContainer($id, $classPreset);
+            case "href":
+                return new HREFContainer($id, $classPreset);
             case "generic":
             default:
                 return new GenericContainer($id, $element, $classPreset);
@@ -182,6 +193,11 @@ class GenericContainer {
             default:
                 throw new \InvalidArgumentException("Invalid array container type! {$type}");
         }
+    }
+
+    /* Protected functions */
+    protected static function functionNotAllowed($function) {
+        throw new \Exception("{$function} is not allowed by {$this->getID()}. Abort.");
     }
 }
 
@@ -203,14 +219,14 @@ class DoubleContainer extends C\GenericContainer {
 
     public function __construct($id, $element, $classPreset) {
         parent::__construct($id, $element[0], $classPreset[0]);
-        /* Double containers have a one and only child */
+        /* Double containers have one child automatically created */
         $this->createChildDefault(self::CHILD_ID, $element[1], $classPreset[1]);
     }
 
     public function createChild($type, $id, $element = null, $classPreset = null) {
         if ($this->hasChildren()) {
-            error_log("Creating another child is forbidden for double containers");
-            return null;
+            /* Append child ID with new unique child */
+            $id = self::CHILD_ID . $id;
         }
         return parent::createChild($type, $id, $element, $classPreset);
     }
@@ -240,9 +256,29 @@ class ButtonContainer extends C\GenericContainer {
     }
 }
 
+class HREFContainer extends C\GenericContainer {
+    const HREF_ELEMENT = "a";
+
+    public function __construct($id, $classPreset) {
+        parent::__construct($id, self::HREF_ELEMENT, $classPreset);
+    }
+
+    public function createChild($type, $id, $element = null, $classPreset = null) {
+        return self::functionNotAllowed(__METHOD__);
+    }
+
+    public function getHTML() {
+        $htmlContent = $this->getHTMLContent();
+        return "<{$this->element} id=\"{$this->getID()}\" " .
+               "href=\"{$htmlContent}\" target=\"blank_\" " .
+               "class=\"{$this->class}\">\n\t{$htmlContent}\n</{$this->element}>";
+    }
+}
+
 /* Three levels deep with three children at the bottom */
 class ThreeByThreeContainer extends C\GenericContainer {
-    private $chainLinear = array(); /* Target count: 5 */
+    const CHILDREN_LIMIT = 5;
+    private $chainLinear = array();
 
     public function __construct($id, $element, $classPreset) {
         parent::__construct($id, $element[0], $classPreset[0]);
@@ -254,19 +290,11 @@ class ThreeByThreeContainer extends C\GenericContainer {
         $child1 = $this->chainLinear[1] = $this->createChildDefault(0,
                 $element[1],
                 $classPreset[1]);
-        for ($idx = 2; $idx < 5; $idx++) {
+        for ($idx = 2; $idx < self::CHILDREN_LIMIT; $idx++) {
             $this->chainLinear[$idx] = $child1->createChildDefault($idx - 1,
                     $element[$idx],
                     $classPreset[$idx]);
         }
-    }
-
-    public function createChild($type, $id, $element = null, $classPreset = null) {
-        if ($this->countChainLinear() == 5) {
-            error_log("Creating more than 5 linear children is forbidden for 3by3 containers");
-            return null;
-        }
-        return parent::createChild($type, $id, $element, $classPreset);
     }
 
     private function getChainLinear($idx) {
@@ -278,18 +306,20 @@ class ThreeByThreeContainer extends C\GenericContainer {
     }
 
     public function setContent($contentData) {
-        /* Set content of child containers 3 to 5, contentData must count 3 */
-        if (!is_array($contentData) || count($contentData) != 3) {
-            error_log("Content data array does not have 3 entries! Abort.");
+        /* Set content of child containers, contentData must count below */
+        $contentCount = self::CHILDREN_LIMIT - 2;
+        if (!is_array($contentData) || count($contentData) != $contentCount) {
+            error_log("Content data array does not have the required entries! Abort.");
             return;
         }
 
-        if ($this->countChainLinear() != 5) {
-            error_log("3by3 container does not have 5 linear children! Abort.");
+        if ($this->countChainLinear() != self::CHILDREN_LIMIT) {
+            error_log("3by3 container does not have " . 
+                    self::CHILDREN_LIMIT . " linear children! Abort.");
             return;
         }
 
-        for ($idx = 0; $idx < 3; $idx++) {
+        for ($idx = 0; $idx < $contentCount; $idx++) {
             $this->getChainLinear($idx + 2)->setContent($contentData[$idx]);
         }
     }

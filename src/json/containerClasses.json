@@ -1,14 +1,15 @@
 {
     "none": "",
     "fluid": "container-fluid",
-    "button": "btn btn-outline-dark",
+    "button": "btn btn-outline-dark mb-2",
     "collapse": "collapse",
     "h2": "display-5 fs-2",
     "row": "row mt-2",
+    "col": "col-xl-3 m-2",
 
     "card_col": "card col-xl-3 m-2",
-    "card_body": "card-body",
-    "card_title": "card-tile",
+    "card_body": "card-body text-start",
+    "card_title": "card-title",
     "card_subtitle": "card-subtitle mb-2 text-muted",
     "card_text": "card-text",
 

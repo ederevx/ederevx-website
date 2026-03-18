@@ -11,12 +11,32 @@
             },
             "article": {
                 "element": "article",
-                "childrenDirectory": "src/json/container_groups/ma_article.json"
+                "childrenDirectory": "src/json/container_groups/main_about_article.json"
+            }
+        },
+        "projects": {
+            "title": {
+                "containerType": "double",
+                "element": ["div", "h1"],
+                "classPreset": ["fluid", "main_title"],
+                "content": "Projects"
+            },
+            "article": {
+                "element": "article",
+                "childrenDirectory": "src/json/container_groups/main_projects_article.json"
+            }
+        },
+        "contact": {
+            "title": {
+                "containerType": "double",
+                "element": ["div", "h1"],
+                "classPreset": ["fluid", "main_title"],
+                "content": "Contact"
+            },
+            "article": {
+                "element": "article",
+                "childrenDirectory": "src/json/container_groups/main_contact_article.json"
             }
         }
-    },
-    "contentPerID": {
-        "projects": "contentHTMLPHP",
-        "contact": "contentHTMLPHP"
     }
 }
