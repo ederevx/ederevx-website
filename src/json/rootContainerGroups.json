@@ -26,12 +26,7 @@
             "main": {
                 "containerType": "fluid",
                 "element": "main",
-                "duplicatedChildren": {
-                    "ids": ["about", "projects", "contact"],
-                    "containerType": "main",
-                    "content": "html-php",
-                    "children": {}
-                }
+                "childrenDirectory": "src/json/mainContainerGroups.json"
             },
             "footer": {
                 "containerType": "fluid",

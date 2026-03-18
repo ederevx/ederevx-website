@@ -5,6 +5,14 @@ require_once "src/php/required/containers.php";
 
 use Container as C;
 
+function parseJSONFile($filePath) {
+    if (!file_exists($filePath)) {
+        throw new \InvalidArgumentException("File at path {$filePath} does not exist.");
+    }
+    $jsonContent = file_get_contents($filePath);
+    return json_decode($jsonContent, true);
+}
+
 function parseContainerGroups($groupData, $parentContainer) {
     if (!$groupData) {
         return;
@@ -20,7 +28,8 @@ function parseContainerGroups($groupData, $parentContainer) {
             "classPreset" => $containerData["classPreset"] ?? null,
             "content" => $containerData["content"] ?? null,
             "children" => $containerData["children"] ?? null,
-            "duplicatedChildren" => $containerData["duplicatedChildren"] ?? null
+            "duplicatedChildren" => $containerData["duplicatedChildren"] ?? null,
+            "childrenDirectory" => $containerData["childrenDirectory"] ?? null,
         );
         parseContainerGroupsChild($containerDataParsed, $parentContainer);
     }
@@ -38,30 +47,31 @@ function parseContainerGroupsChild($childData, $parentContainer) {
     $content = $childData["content"];
     $children = $childData["children"];
     $dupChildren = $childData["duplicatedChildren"];
+    $childrenDir = $childData["childrenDirectory"];
 
     if ($parentContainer === null || $id == "root") {
         /* Create root container */
         $rootContainer = C\GenericContainer::createGenericContainerType($type, $id, $element, $classPreset);
         C\GenericContainer::setRootContainer($rootContainer);
         parseContainerGroups($children, $rootContainer);
-    } else if ($content || $children || $dupChildren) {
+    } else if ($content || $children || $dupChildren || $childrenDir) {
         /* Create child container with children and/or content */
         $childContainer = $parentContainer->createChild($type, $id, $element, $classPreset);
         parseContainerGroupsContent($content, $childContainer);
-        parseContainerGroupsChildren($children, $dupChildren, $childContainer);
+        parseContainerGroupsChildren($children, $dupChildren, $childrenDir, $childContainer);
     } else {
-        throw new Exception("Invalid container data for container with id {$id}.");
+        throw new \Exception("Invalid container data for container with id {$id}.");
     }
 }
 
-function parseContainerGroupsChildren($childrenData, $dupChildrenData, $childContainer) {
+function parseContainerGroupsChildren($childrenData, $dupChildrenData, $childrenDir, $childContainer) {
     /* Allow to have both unique and duplicated children; handle unique first */
     if ($childrenData) {
         parseContainerGroups($childrenData, $childContainer);
     }
+    /* Handle duplicated children by generating equivalent child containers per id, 
+     * duplicated children must have the same type, element, and class preset */
     if ($dupChildrenData) {
-        /* Handle duplicated children by generating equivalent child containers per id, 
-         * duplicated children must have the same type, element, and class preset */
         foreach ($dupChildrenData["ids"] as $dupId) {
             $dupIdData = array("{$dupId}" => array(
                 "containerType" => $dupChildrenData["containerType"] ?? null,
@@ -78,10 +88,19 @@ function parseContainerGroupsChildren($childrenData, $dupChildrenData, $childCon
                 "duplicatedChildren" => 
                         $dupChildrenData["duplicatedChildren"] ?? 
                         $dupChildrenData["duplicatedChildrenPerId"][$dupId] ?? 
+                        null,
+                "childrenDirectory" => 
+                        $dupChildrenData["childrenDirectory"] ?? 
+                        $dupChildrenData["childrenDirectoryPerId"][$dupId] ?? 
                         null
             ));
             parseContainerGroups($dupIdData, $childContainer);
         }
+    }
+    /* Handle children directory by reading the JSON file in the directory and parsing it as children */
+    if ($childrenDir) {
+        $childrenDirData = parseJSONFile($childrenDir);
+        parseContainerGroups($childrenDirData, $childContainer);
     }
 }
 

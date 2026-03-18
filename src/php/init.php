@@ -4,12 +4,17 @@ use Container as C;
 use Parser as P;
 
 function initialize() {
-    global $containerGrpsData;
-    if (!$containerGrpsData) {
-        throw new Exception("Container groups data is not available.");
+    global $rootJSONContainerGrpsDir;
+    if (!$rootJSONContainerGrpsDir) {
+        throw new Exception("Root JSON container groups directory is not set.");
     }
 
-    P\parseContainerGroups($containerGrpsData, null);
+    $rootContainerGrpsData = P\parseJSONFile($rootJSONContainerGrpsDir);
+    if (!$rootContainerGrpsData) {
+        throw new Exception("Root container groups data is not available.");
+    }
+
+    P\parseContainerGroups($rootContainerGrpsData, null);
 
     /* Check if root container is initialized */
     if (C\GenericContainer::getRootContainer() === null) {

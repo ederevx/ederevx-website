@@ -1,0 +1,14 @@
+{
+    "about": {
+        "containerType": "main",
+        "content": "html-php"
+    },
+    "projects": {
+        "containerType": "main",
+        "content": "html-php"
+    },
+    "contact": {
+        "containerType": "main",
+        "content": "html-php"
+    }
+}
