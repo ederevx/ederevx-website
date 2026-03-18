@@ -5,9 +5,10 @@
 <body id="body">
 <?php
 
-/* Include necessary PHP files */
-require "src/php/containers.php";
-require "src/php/global.php";
+/* Include required PHP files */
+foreach (glob("src/php/required/*.php") as $filename) {
+    require_once $filename;
+}
 
 /* Initialize containers based on JSON data */
 include 'src/php/init.php';

@@ -26,22 +26,11 @@
             "main": {
                 "containerType": "fluid",
                 "element": "main",
-                "children": {
-                    "about": {
-                        "containerType": "main",
-                        "content": "html-php",
-                        "children": {}
-                    },
-                    "projects": {
-                        "containerType": "main",
-                        "content": "html-php",
-                        "children": {}
-                    },
-                    "contact": {
-                        "containerType": "main",
-                        "content": "html-php",
-                        "children": {}
-                    }
+                "duplicatedChildren": {
+                    "ids": ["about", "projects", "contact"],
+                    "containerType": "main",
+                    "content": "html-php",
+                    "children": {}
                 }
             },
             "footer": {

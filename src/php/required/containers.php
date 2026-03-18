@@ -6,7 +6,7 @@ use Container as C;
 class GenericContainer {
     public $id;
     public $element;
-    private $class;
+    private $class = self::CONTAINER_CLASSES["none"];
     private $content = "";
     private $children = array();
     private $parent = null;
@@ -25,12 +25,13 @@ class GenericContainer {
         "inner_nav_header" => "px-5 container-fluid",
         "main_section" => "m-2 mt-5 p-3 container-lg",
         "footer_content" => "text-muted text-center",
+        "none" => "",
     );
 
     public function __construct($id, $element, $classPreset) {
         $this->id = $id;
         $this->element = $element;
-        $this->class = self::CONTAINER_CLASSES[$classPreset];
+        $this->class = self::CONTAINER_CLASSES[$classPreset ?? "none"];
     }
 
     /* Child container functions */
