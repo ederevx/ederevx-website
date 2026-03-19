@@ -5,17 +5,17 @@
         "workexp",
         "education"
     ],
-    "classPreset": "main_about_fluid",
+    "classPreset": "main_about",
     "childrenPerID": {
         "headline": {
             "title": {
                 "element": "h2",
-                "classPreset": "h2",
+                "classPreset": "title2",
                 "content": "Mainframe Computer Operator and Open-source Software Programmer"
             },
             "subtitle": {
                 "element": "p",
-                "classPreset": "main_about_headline_subtitle",
+                "classPreset": "subtitle",
                 "content": "Based on Tallahassee, Florida, United States"
             }
         },
@@ -26,7 +26,7 @@
                 "children": {
                     "title": {
                         "element": "h2",
-                        "classPreset": "h2",
+                        "classPreset": "title2",
                         "content": "Work Experience"
                     }
                 }
@@ -41,7 +41,7 @@
                             "containerType": "3by3",
                             "element": ["div", "div", "h5", "h6", "p"],
                             "classPreset": [
-                                "card_col",
+                                "card col",
                                 "card_body",
                                 "card_title",
                                 "card_subtitle",
@@ -86,7 +86,7 @@
                 "children": {
                     "title": {
                         "element": "h2",
-                        "classPreset": "h2",
+                        "classPreset": "title2",
                         "content": "Education"
                     }
                 }
@@ -101,7 +101,7 @@
                             "containerType": "3by3",
                             "element": ["div", "div", "h5", "h6", "p"],
                             "classPreset": [
-                                "card_col",
+                                "card col",
                                 "card_body",
                                 "card_title",
                                 "card_subtitle",

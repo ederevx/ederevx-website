@@ -2,24 +2,26 @@
     "none": "",
     "fluid": "container-fluid",
     "button": "btn btn-outline-dark mb-2",
-    "collapse": "collapse",
-    "h2": "display-5 fs-2",
+
     "row": "row mt-2",
     "col": "col-xl-3 m-2",
 
-    "card_col": "card col-xl-3 m-2",
+    "title": "display-3",
+    "title2": "display-5 fs-2",
+    "subtitle": "fs-5 text-muted",
+
     "card_body": "card-body text-start",
-    "card_title": "card-title",
     "card_subtitle": "card-subtitle mb-2 text-muted",
-    "card_text": "card-text",
 
-    "inner_nav": "navbar navbar-expand-lg navbar-light bg-light fixed-top",
-    "inner_nav_header": "px-5 container-fluid",
+    "nav_child": "navbar navbar-expand-lg navbar-light bg-light fixed-top",
+    "nav_header": "px-5 container-fluid",
 
-    "main_title": "display-3",
-    "main_section": "m-2 mt-5 p-3 container-lg",
-    "main_about_fluid": "my-4 container-fluid",
-    "main_about_headline_subtitle": "fs-5 text-muted",
+    "navbar_brand": "navbar-brand display-1 fs-2",
+    "navbar_collapse": "collapse navbar-collapse",
+    "navbar_nav": "navbar-nav navbar-nav-scroll",
+
+    "main": "m-2 mt-5 p-3 container-lg",
+    "main_about": "my-4 container-fluid",
 
     "footer_copyright": "text-muted text-center"
 }

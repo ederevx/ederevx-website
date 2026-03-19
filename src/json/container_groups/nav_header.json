@@ -1,0 +1,64 @@
+{
+    "title": {
+        "containerType": "href",
+        "classPreset": "navbar_brand",
+        "content": [
+            "hrefRaw",
+            "Edrick Sinsuan",
+            "#",
+            ""
+        ]
+    },
+    "toggler": {
+        "containerType": "button",
+        "classPreset": "navbar-toggler",
+        "children": {
+            "icon": {
+                "classPreset": "navbar-toggler-icon",
+                "content": " "
+            }
+        }
+    },
+    "content": {
+        "containerType": "double",
+        "element": ["div", "ul"],
+        "classPreset": ["navbar_collapse", "navbar_nav"],
+        "children": {
+            "ids": [1, 2, 3],
+            "element": "li",
+            "classPreset": "nav-item",
+            "childrenPerID": {
+                "1": {
+                    "link": {
+                        "containerType": "href",
+                        "classPreset": "nav-link",
+                        "content": [
+                            "hrefFind",
+                            "main/about"
+                        ]
+                    }
+                },
+                "2": {
+                    "link": {
+                        "containerType": "href",
+                        "classPreset": "nav-link",
+                        "content": [
+                            "hrefFind",
+                            "main/projects"
+                        ]
+                    }
+                },
+                "3": {
+                    "link": {
+                        "containerType": "href",
+                        "classPreset": "nav-link",
+                        "content": [
+                            "hrefFind",
+                            "main/contact"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

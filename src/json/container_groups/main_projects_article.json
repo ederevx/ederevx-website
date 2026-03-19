@@ -9,7 +9,7 @@
                     "containerType": "3by3",
                     "element": ["div", "div", "h5", "h6", "p"],
                     "classPreset": [
-                        "card_col",
+                        "card col",
                         "card_body",
                         "card_title",
                         "card_subtitle",

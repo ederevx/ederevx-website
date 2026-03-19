@@ -14,15 +14,23 @@ class GenericContainer {
     private static $containerClasses = null;
     const ID_DEPTH = 2; /* How many parents' full name included in ID */
 
-    public function __construct($id, $element, $classPreset) {
+    public function __construct($id, $element, $classPresetData) {
         $this->setID($id);
         /* If no element property provided, go with default div */
         if ($element) {
             $this->element = $element;
         }
         /* Only configure classpreset if present, if not don't use any at all */
-        if ($classPreset && self::getContainerClasses()) {
-            $this->class = self::getContainerClasses()[$classPreset];
+        if ($classPresetData) {
+            $classPresetData = explode(" ", $classPresetData);
+            foreach ($classPresetData as $classPreset) {
+                /* If container class doesn't have the preset, try the preset itself */
+                $class = self::getContainerClasses()[$classPreset] ?? $classPreset;
+                if ($this->class !== "") {
+                    $this->class .= " ";
+                }
+                $this->class .= $class;
+            }
         }
     }
 
@@ -105,14 +113,21 @@ class GenericContainer {
 
     /* Content functions */
 
-    public function setContent($contentData) {
-        if ($contentData === "contentHTMLPHP") {
-            $this->content = file_get_contents("src/html-php/contents/{$this->getID()}.php");
-        } else if ($contentData === "contentPHP") {
-            $this->content = include "src/php/{$this->getID()}.php";
-        } else {
-            $this->content = $contentData;
+    public function parseContent($contentData) {
+        switch ($contentData) {
+            case "contentHTMLPHP":
+                return file_get_contents("src/html-php/contents/{$this->getID()}.php");
+            default:
+                return $contentData;
         }
+    }
+
+    public function setContent($contentData) {
+        $this->content = $this->parseContent($contentData);
+    }
+
+    public function getContent() {
+        return $this->content;
     }
 
     /* HTML generation function */
@@ -125,11 +140,11 @@ class GenericContainer {
 
     public function getHTMLContent() {
         $htmlContent = $this->getChildrenHTML();
-        /* Append container content to the children's content */
+        /* Append container's raw content to the children's content */
         $htmlContent .= $this->content;
         /* If content is empty, throw an exception */
         if ($htmlContent == "") {
-            throw new \InvalidArgumentException("Container with id {$this->getID()} has no content.");
+            error_log("Container with id {$this->getID()} has no content.");
         }
         return $htmlContent;
     }
@@ -138,7 +153,8 @@ class GenericContainer {
 
     public static function setRootContainer($container) {
         if (self::$rootContainer !== null) {
-            throw new \Exception("Root container is already set.");
+            error_log("Root container is already set.");
+            return;
         }
         self::$rootContainer = $container;
     }
@@ -166,8 +182,19 @@ class GenericContainer {
         return self::$containerClasses;
     }
 
+    public static function findContainerFromRootDir($dirString) {
+        $dirArray = explode('/', $dirString);
+
+        $ptr = self::getRootContainer();
+        foreach ($dirArray as $childName) {
+            $ptr = $ptr->getChild($childName);
+        }
+
+        return $ptr;
+    }
+
     public static function createGenericContainerType($type, $id, $element = null, $classPreset = null) {
-        if (is_array($element) || is_array($classPreset)) {
+        if (is_array($element) && is_array($classPreset)) {
             return self::createArrayContainerType($type, $id, $element, $classPreset);
         }
 
@@ -191,7 +218,7 @@ class GenericContainer {
             case "double":
                 return new DoubleContainer($id, $element, $classPreset);
             default:
-                throw new \InvalidArgumentException("Invalid array container type! {$type}");
+                error_log("Invalid array container type! {$type}");
         }
     }
 
@@ -203,14 +230,19 @@ class GenericContainer {
 
 class MainContainer extends C\GenericContainer {
     const MAIN_ELEMENT = "div";
-    const MAIN_CLASSPRESET = "main_section";
+    const MAIN_CLASSPRESET = "main";
 
     public function __construct($id) {
         parent::__construct($id, self::MAIN_ELEMENT, self::MAIN_CLASSPRESET);
     }
 
     public function getHTML() {
-        return "<br id=\"{$this->getID()}\">\n" . parent::getHTML();
+        /* The break header must be the nav target */
+        return "<br id=\"{$this->getNavID()}\">\n" . parent::getHTML();
+    }
+
+    public function getNavID() {
+        return $this->getID() . "_nav";
     }
 }
 
@@ -218,17 +250,27 @@ class DoubleContainer extends C\GenericContainer {
     const CHILD_ID = "child";
 
     public function __construct($id, $element, $classPreset) {
+        if (count($element) < 2 || count($classPreset) < 2) {
+            error_log("Not enought element or classes defined! Abort.");
+            return;
+        }
         parent::__construct($id, $element[0], $classPreset[0]);
         /* Double containers have one child automatically created */
         $this->createChildDefault(self::CHILD_ID, $element[1], $classPreset[1]);
     }
 
     public function createChild($type, $id, $element = null, $classPreset = null) {
-        if ($this->hasChildren()) {
-            /* Append child ID with new unique child */
-            $id = self::CHILD_ID . $id;
+        /* First create the child container if none existent */
+        if (!$this->hasChild(self::CHILD_ID)) {
+            return parent::createChild($type, self::CHILD_ID, $element, $classPreset);
         }
-        return parent::createChild($type, $id, $element, $classPreset);
+        /* Then, create the child of the child container if requested again */
+        return $this->getChild(self::CHILD_ID)->createChild($type, $id, $element, $classPreset);
+    }
+
+    public function getContent() {
+        /*Get content of child container instead of the container itself */
+        return $this->getChild(self::CHILD_ID)->getContent();
     }
 
     public function setContent($contentData) {
@@ -238,7 +280,7 @@ class DoubleContainer extends C\GenericContainer {
 }
 
 class ButtonContainer extends C\GenericContainer {
-    const TARGET_CHILD_ID = "content";
+    const TARGET_SIBLING_ID = "content";
     const BUTTON_ELEMENT = "button";
 
     public function __construct($id, $classPreset) {
@@ -247,7 +289,7 @@ class ButtonContainer extends C\GenericContainer {
 
     public function getHTML() {
         $htmlContent = $this->getHTMLContent();
-        $targetID = $this->parent->getChild(self::TARGET_CHILD_ID)->getID();
+        $targetID = $this->parent->getChild(self::TARGET_SIBLING_ID)->getID();
         return "<{$this->element} id=\"{$this->getID()}\" " .
                "type=\"button\" data-bs-toggle=\"collapse\" " . 
                "data-bs-target=\"#{$targetID}\" aria-expanded=\"false\" " .
@@ -258,6 +300,10 @@ class ButtonContainer extends C\GenericContainer {
 
 class HREFContainer extends C\GenericContainer {
     const HREF_ELEMENT = "a";
+    protected $hrefContent = "#";
+    protected $targetContent = "blank_";
+    protected $storedContentData = array();
+    protected $isDeffered = false;
 
     public function __construct($id, $classPreset) {
         parent::__construct($id, self::HREF_ELEMENT, $classPreset);
@@ -267,10 +313,93 @@ class HREFContainer extends C\GenericContainer {
         return self::functionNotAllowed(__METHOD__);
     }
 
+    public function setContent($contentData) {
+        if (!is_array($contentData)) {
+            /* Reconstruct into array if not array and perform normal parsing */
+            $contentData = array("default", $contentData);
+        }
+        $contentCount = count($contentData);
+
+        /* Parse classification first, then configure as necessary */
+        switch ($contentData[0]) {
+            case "hrefFind":
+                /* We can't do this right now, defer it to getHTML() */
+                $this->storedContentData = $contentData;
+                $this->isDeffered = true;
+                break;
+            case "hrefRaw":
+                if ($contentCount < 3) {
+                    error_log("Missing content entries! Abort.");
+                    return;
+                }
+                /* Configure content first then href and target */
+                $this->content = $contentData[1];
+                $this->hrefContent = $contentData[2];
+                $this->targetContent = $contentData[3] ?? "blank_";
+                break;
+            case "default":
+            default:
+                $this->content = parent::parseContent($contentData[1]);
+                $this->hrefContent = $this->content;
+                break;
+        }
+    }
+
+    protected function setDefferedHREFContent($contentData) {
+        if (!$this->isDeffered) {
+            /* Not needed */
+            return;
+        }
+
+        if (!is_array($contentData)) {
+            /* Reconstruct into array if not array and perform normal parsing */
+            $contentData = array("default", $contentData);
+        }
+        $contentCount = count($contentData);
+
+        /* Parse classification first, then configure as necessary */
+        switch ($contentData[0]) {
+            case "hrefFind":
+                if ($contentCount < 2) {
+                    error_log("Missing local directory! Abort.");
+                    return;
+                }
+                /* This should be doable now after being deferred */
+                $this->setLocalHREFContent($contentData);
+                break;
+            default:
+                break;
+        }
+    }
+
+    protected function setLocalHREFContent($contentData) {
+        /* Target must be found and must have navID */
+        $targetPtr = self::findContainerFromRootDir($contentData[1]);
+        if (!$targetPtr || !method_exists($targetPtr, "getNavID")) {
+            error_log("Invalid nav target! Abort.");
+            return;
+        }
+        $this->hrefContent = "#{$targetPtr->getNavID()}";
+
+        /* The target must have a title child */
+        $targetTitlePtr = $targetPtr->getChild("title");
+        if (!$targetTitlePtr) {
+            error_log("Invalid nav target! Abort.");
+            return;
+        }
+        /* Get content from title */
+        $this->content = $targetTitlePtr->getContent();
+
+        $this->targetContent = $contentData[2] ?? "";
+        $this->isDeferred = false;
+    }
+
     public function getHTML() {
+        /* Set deferred HREF content here after everything has been initialized */
+        $this->setDefferedHREFContent($this->storedContentData);
         $htmlContent = $this->getHTMLContent();
         return "<{$this->element} id=\"{$this->getID()}\" " .
-               "href=\"{$htmlContent}\" target=\"blank_\" " .
+               "href=\"{$this->hrefContent}\" target=\"{$this->targetContent}\" " .
                "class=\"{$this->class}\">\n\t{$htmlContent}\n</{$this->element}>";
     }
 }
@@ -278,7 +407,7 @@ class HREFContainer extends C\GenericContainer {
 /* Three levels deep with three children at the bottom */
 class ThreeByThreeContainer extends C\GenericContainer {
     const CHILDREN_LIMIT = 5;
-    private $chainLinear = array();
+    protected $chainLinear = array();
 
     public function __construct($id, $element, $classPreset) {
         parent::__construct($id, $element[0], $classPreset[0]);
@@ -322,6 +451,18 @@ class ThreeByThreeContainer extends C\GenericContainer {
         for ($idx = 0; $idx < $contentCount; $idx++) {
             $this->getChainLinear($idx + 2)->setContent($contentData[$idx]);
         }
+    }
+
+    public function getContent() {
+        $contentCount = self::CHILDREN_LIMIT - 2;
+
+        $content = array();
+        for ($idx = 0; $idx < $contentCount; $idx++) {
+            $content[$idx] = $this->getChainLinear($idx + 2)->getContent();
+        }
+
+        /* Return content of the linear children containers */
+        return $content;
     }
 }
 

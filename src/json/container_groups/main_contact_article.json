@@ -6,34 +6,40 @@
                 "classPreset": "row",
                 "children": {
                     "ids": [1, 2, 3],
-                    "containerType": "double",
-                    "element": ["div", "h1"],
-                    "classPreset": ["col", "h2"],
-                    "contentPerID": {
-                        "1": "Github",
-                        "2": "LinkedIn",
-                        "3": "Email"
-                    },
+                    "element": "div",
+                    "classPreset": "col",
                     "childrenPerID": {
                         "1": {
                             "link": {
                                 "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://github.com/ederevx"
+                                "classPreset": "button fluid title2",
+                                "content": [
+                                    "hrefRaw",
+                                    "Github",
+                                    "https://github.com/ederevx"
+                                ]
                             }
                         },
                         "2": {
                             "link": {
                                 "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://www.linkedin.com/in/ederevx"
+                                "classPreset": "button fluid title2",
+                                "content": [
+                                    "hrefRaw",
+                                    "LinkedIn",
+                                    "https://www.linkedin.com/in/ederevx"
+                                ]
                             }
                         },
                         "3": {
                             "link": {
                                 "containerType": "href",
-                                "classPreset": "button",
-                                "content": "mailto:evcsinsuan@gmail.com"
+                                "classPreset": "button fluid title2",
+                                "content": [
+                                    "hrefRaw",
+                                    "Email",
+                                    "mailto:evcsinsuan@gmail.com"
+                                ]
                             }
                         }
                     }

@@ -2,7 +2,6 @@
 <html lang="en">
 <?php include 'src/html-php/head-tag-config.php'; ?>
 
-<body id="body">
 <?php
 
 /* Include required PHP files */
@@ -18,5 +17,4 @@ include 'src/php/init.php';
 echo Container\GenericContainer::getRootContainer()->getHTML();
 
 ?>
-</body>
 </html>

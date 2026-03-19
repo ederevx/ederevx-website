@@ -1,16 +1,17 @@
 {
     "root": {
         "classPreset": "fluid",
+        "element": "body",
         "children": {
             "nav": {
-                "classPreset": "fluid",
-                "element": "nav",
+                "containerType": "double",
+                "classPreset": ["fluid", "nav_child"],
+                "element": ["nav", "nav"],
                 "children": {
-                    "inner": {
-                        "containerType": "double",
-                        "classPreset": ["inner_nav", "inner_nav_header"],
-                        "element": ["nav", "header"],
-                        "content": "contentHTMLPHP"
+                    "header": {
+                        "classPreset": "nav_header",
+                        "element": "header",
+                        "childrenDirectory": "src/json/container_groups/nav_header.json"
                     }
                 }
             },

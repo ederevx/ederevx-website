@@ -6,7 +6,7 @@
             "title": {
                 "containerType": "double",
                 "element": ["div", "h1"],
-                "classPreset": ["fluid", "main_title"],
+                "classPreset": ["fluid", "title"],
                 "content": "About"
             },
             "article": {
@@ -18,7 +18,7 @@
             "title": {
                 "containerType": "double",
                 "element": ["div", "h1"],
-                "classPreset": ["fluid", "main_title"],
+                "classPreset": ["fluid", "title"],
                 "content": "Projects"
             },
             "article": {
@@ -30,7 +30,7 @@
             "title": {
                 "containerType": "double",
                 "element": ["div", "h1"],
-                "classPreset": ["fluid", "main_title"],
+                "classPreset": ["fluid", "title"],
                 "content": "Contact"
             },
             "article": {
