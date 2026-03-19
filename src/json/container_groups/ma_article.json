@@ -1,0 +1,131 @@
+{
+    "ids": [
+        "headline",
+        "headline_caption",
+        "workexp",
+        "education"
+    ],
+    "classPreset": "main_about_fluid",
+    "childrenPerID": {
+        "headline": {
+            "title": {
+                "element": "h2",
+                "classPreset": "h2",
+                "content": "Mainframe Computer Operator and Open-source Software Programmer"
+            },
+            "subtitle": {
+                "element": "p",
+                "classPreset": "main_about_headline_subtitle",
+                "content": "Based on Tallahassee, Florida, United States"
+            }
+        },
+        "workexp": {
+            "button": {
+                "containerType": "button",
+                "classPreset": "button",
+                "children": {
+                    "title": {
+                        "element": "h2",
+                        "classPreset": "h2",
+                        "content": "Work Experience"
+                    }
+                }
+            },
+            "content": {
+                "classPreset": "collapse",
+                "children": {
+                    "row": {
+                        "classPreset": "row",
+                        "children": {
+                            "ids": [1, 2, 3, 4, 5],
+                            "containerType": "3by3",
+                            "element": ["div", "div", "h5", "h6", "p"],
+                            "classPreset": [
+                                "card_col",
+                                "card_body",
+                                "card_title",
+                                "card_subtitle",
+                                "card_text"
+                            ],
+                            "contentPerID": {
+                                "1": [
+                                    "Computer Operator III (Mainframe)",
+                                    "Florida Department of Financial Services",
+                                    "March 2024 - Present"
+                                ],
+                                "2": [
+                                    "Computer Systems Analyst",
+                                    "The Florida Lottery",
+                                    "August 2023 - March 2024"
+                                ],
+                                "3": [
+                                    "Computer Systems Operator",
+                                    "The Florida Lottery",
+                                    "May 2023 - August 2023"
+                                ],
+                                "4": [
+                                    "Neonatal Intensive Care Unit Secretary",
+                                    "Tallahassee Memorial HealthCare",
+                                    "February 2023 - July 2023"
+                                ],
+                                "5": [
+                                    "Restaurant Crew Member",
+                                    "McDonald's",
+                                    "August 2022 - February 2023"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "education": {
+            "button": {
+                "containerType": "button",
+                "classPreset": "button",
+                "children": {
+                    "title": {
+                        "element": "h2",
+                        "classPreset": "h2",
+                        "content": "Education"
+                    }
+                }
+            },
+            "content": {
+                "classPreset": "collapse",
+                "children": {
+                    "row": {
+                        "classPreset": "row",
+                        "children": {
+                            "ids": [1, 2],
+                            "containerType": "3by3",
+                            "element": ["div", "div", "h5", "h6", "p"],
+                            "classPreset": [
+                                "card_col",
+                                "card_body",
+                                "card_title",
+                                "card_subtitle",
+                                "card_text"
+                            ],
+                            "contentPerID": {
+                                "1": [
+                                    "Bachelor of Science in Computer Engineering",
+                                    "Florida State University, Tallahassee, FL",
+                                    "August 2025 - August 2028 (Estimated)"
+                                ],
+                                "2": [
+                                    "Associate of Arts - AA Degree, Computer Engineering",
+                                    "Tallahassee State College, Tallahassee, FL",
+                                    "August 2023 - July 2025"
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "contentPerID": {
+        "headline_caption": "A mainframe computer operator studying computer engineering and software development. Highly adaptive with technologies, capable of working with or without a team under pressure and experienced with programming and troubleshooting various computer systems and software."
+    }
+}

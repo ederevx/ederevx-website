@@ -10,7 +10,12 @@ function parseJSONFile($filePath) {
         throw new \InvalidArgumentException("File at path {$filePath} does not exist.");
     }
     $jsonContent = file_get_contents($filePath);
-    return json_decode($jsonContent, true);
+
+    $jsonOutput = json_decode($jsonContent, true);
+    if (!$jsonOutput) {
+        throw new \InvalidArgumentException("File at path {$filePath} is not a valid JSON file.");
+    }
+    return $jsonOutput;
 }
 
 function parseContainerGroups($groupData, $parentContainer) {
@@ -28,7 +33,6 @@ function parseContainerGroups($groupData, $parentContainer) {
             "classPreset" => $containerData["classPreset"] ?? null,
             "content" => $containerData["content"] ?? null,
             "children" => $containerData["children"] ?? null,
-            "duplicatedChildren" => $containerData["duplicatedChildren"] ?? null,
             "childrenDirectory" => $containerData["childrenDirectory"] ?? null,
         );
         parseContainerGroupsChild($containerDataParsed, $parentContainer);
@@ -46,7 +50,6 @@ function parseContainerGroupsChild($childData, $parentContainer) {
     $classPreset = $childData["classPreset"];
     $content = $childData["content"];
     $children = $childData["children"];
-    $dupChildren = $childData["duplicatedChildren"];
     $childrenDir = $childData["childrenDirectory"];
 
     if ($parentContainer === null || $id == "root") {
@@ -54,69 +57,66 @@ function parseContainerGroupsChild($childData, $parentContainer) {
         $rootContainer = C\GenericContainer::createGenericContainerType($type, $id, $element, $classPreset);
         C\GenericContainer::setRootContainer($rootContainer);
         parseContainerGroups($children, $rootContainer);
-    } else if ($content || $children || $dupChildren || $childrenDir) {
+    } else if ($content || $children || $childrenDir) {
         /* Create child container with children and/or content */
         $childContainer = $parentContainer->createChild($type, $id, $element, $classPreset);
-        parseContainerGroupsContent($content, $childContainer);
-        parseContainerGroupsChildren($children, $dupChildren, $childrenDir, $childContainer);
+        $childContainer->setContent($content);
+        parseContainerGroupsChildren($children, $childrenDir, $childContainer);
     } else {
         throw new \Exception("Invalid container data for container with id {$id}.");
     }
 }
 
-function parseContainerGroupsChildren($childrenData, $dupChildrenData, $childrenDir, $childContainer) {
-    /* Allow to have both unique and duplicated children; handle unique first */
+function parseContainerGroupsChildren($childrenData, $childrenDir, $childContainer) {
+    /* Only have either duplicated or normal children groups */
     if ($childrenData) {
-        parseContainerGroups($childrenData, $childContainer);
+        if (!isset($childrenData["ids"]))
+            parseContainerGroups($childrenData, $childContainer);
+        else
+            parseDuplicatedChildrenData($childrenData, $childContainer);
     }
-    /* Handle duplicated children by generating equivalent child containers per id, 
-     * duplicated children must have the same type, element, and class preset */
-    if ($dupChildrenData) {
-        foreach ($dupChildrenData["ids"] as $dupId) {
-            $dupIdData = array("{$dupId}" => array(
-                "containerType" => $dupChildrenData["containerType"] ?? null,
-                "element" => $dupChildrenData["element"] ?? null,
-                "classPreset" => $dupChildrenData["classPreset"] ?? null,
-                "content" => 
-                        $dupChildrenData["content"] ?? 
-                        $dupChildrenData["contentPerId"][$dupId] ?? 
-                        null,
-                "children" => 
-                        $dupChildrenData["children"] ?? 
-                        $dupChildrenData["childrenPerId"][$dupId] ?? 
-                        null,
-                "duplicatedChildren" => 
-                        $dupChildrenData["duplicatedChildren"] ?? 
-                        $dupChildrenData["duplicatedChildrenPerId"][$dupId] ?? 
-                        null,
-                "childrenDirectory" => 
-                        $dupChildrenData["childrenDirectory"] ?? 
-                        $dupChildrenData["childrenDirectoryPerId"][$dupId] ?? 
-                        null
-            ));
-            parseContainerGroups($dupIdData, $childContainer);
-        }
-    }
+
     /* Handle children directory by reading the JSON file in the directory and parsing it as children */
     if ($childrenDir) {
         $childrenDirData = parseJSONFile($childrenDir);
-        parseContainerGroups($childrenDirData, $childContainer);
+        parseContainerGroupsChildren($childrenDirData, null, $childContainer);
     }
 }
 
-function parseContainerGroupsContent($contentData, $childContainer) {
-    /* This is fine, container likely has a child; otherwise, exception is thrown later */
-    if (!$contentData) {
+function parseDuplicatedChildrenData($childrenData, $childContainer) {
+    if (!is_array($childrenData["ids"])) {
+        error_log("The following children, {$childrenData["ids"]}, were not processed, define as an array.");
         return;
     }
 
-    if ($contentData === "php") {
-        $childContainer->setContentPHP();
-    } else if ($contentData === "html-php") {
-        $childContainer->setContentHTMLPHP();
-    } else {
-        $childContainer->setContent($contentData);
+    /* Handle duplicated children by generating equivalent child containers per id, 
+     * duplicated children must have the same type and element */
+    $childrenIDData = array();
+    foreach ($childrenData["ids"] as $childID) {
+        $childrenIDData[$childID] = array(
+            "containerType" => $childrenData["containerType"] ?? null,
+            "element" => $childrenData["element"] ?? null,
+            "classPreset" => 
+                    $childrenData["classPreset"] ?? 
+                    $childrenData["classPresetPerID"][$childID] ?? 
+                    null,
+            "content" => 
+                    $childrenData["content"] ?? 
+                    $childrenData["contentPerID"][$childID] ?? 
+                    null,
+            "children" => 
+                    $childrenData["children"] ?? 
+                    $childrenData["childrenPerID"][$childID] ?? 
+                    null,
+            "childrenDirectory" => 
+                    $childrenData["childrenDirectory"] ?? 
+                    $childrenData["childrenDirectoryPerID"][$childID] ?? 
+                    null
+        );
     }
+
+    /* Add the duplicated children to the container */
+    parseContainerGroups($childrenIDData, $childContainer);
 }
 
 }

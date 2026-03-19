@@ -4,6 +4,14 @@ use Container as C;
 use Parser as P;
 
 function initialize() {
+    global $containerClassesDir;
+    if ($containerClassesDir) {
+        $containerClassesData = P\parseJSONFile($containerClassesDir);
+        C\GenericContainer::setContainerClasses($containerClassesData);
+    } else {
+        error_log("There are no container classes defined!");
+    }
+
     global $rootJSONContainerGrpsDir;
     if (!$rootJSONContainerGrpsDir) {
         throw new Exception("Root JSON container groups directory is not set.");

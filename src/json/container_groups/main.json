@@ -1,0 +1,22 @@
+{
+    "ids": ["about", "projects", "contact"],
+    "containerType": "main",
+    "childrenPerID": {
+        "about": {
+            "title": {
+                "containerType": "double",
+                "element": ["div", "h1"],
+                "classPreset": ["fluid", "main_title"],
+                "content": "About"
+            },
+            "article": {
+                "element": "article",
+                "childrenDirectory": "src/json/container_groups/ma_article.json"
+            }
+        }
+    },
+    "contentPerID": {
+        "projects": "contentHTMLPHP",
+        "contact": "contentHTMLPHP"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "none": "",
+    "fluid": "container-fluid",
+    "button": "btn btn-outline-dark",
+    "collapse": "collapse",
+    "h2": "display-5 fs-2",
+    "row": "row mt-2",
+
+    "card_col": "card col-xl-3 m-2",
+    "card_body": "card-body",
+    "card_title": "card-tile",
+    "card_subtitle": "card-subtitle mb-2 text-muted",
+    "card_text": "card-text",
+
+    "inner_nav": "navbar navbar-expand-lg navbar-light bg-light fixed-top",
+    "inner_nav_header": "px-5 container-fluid",
+
+    "main_title": "display-3",
+    "main_section": "m-2 mt-5 p-3 container-lg",
+    "main_about_fluid": "my-4 container-fluid",
+    "main_about_headline_subtitle": "fs-5 text-muted",
+
+    "footer_copyright": "text-muted text-center"
+}

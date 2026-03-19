@@ -1,45 +1,29 @@
 {
     "root": {
-        "containerType": "fluid",
-        "element": "div",
+        "classPreset": "fluid",
         "children": {
             "nav": {
-                "containerType": "fluid",
+                "classPreset": "fluid",
                 "element": "nav",
                 "children": {
-                    "inner_nav": {
-                        "containerType": "generic",
-                        "element": "nav",
-                        "classPreset": "inner_nav",
-                        "children": {
-                            "inner_nav_header": {
-                                "containerType": "generic",
-                                "element": "header",
-                                "classPreset": "inner_nav_header",
-                                "content": "html-php",
-                                "children": {}
-                            }
-                        }
+                    "inner": {
+                        "containerType": "double",
+                        "classPreset": ["inner_nav", "inner_nav_header"],
+                        "element": ["nav", "header"],
+                        "content": "contentHTMLPHP"
                     }
                 }
             },
             "main": {
-                "containerType": "fluid",
+                "classPreset": "fluid",
                 "element": "main",
-                "childrenDirectory": "src/json/mainContainerGroups.json"
+                "childrenDirectory": "src/json/container_groups/main.json"
             },
             "footer": {
-                "containerType": "fluid",
-                "element": "footer",
-                "children": {
-                    "footer_content": {
-                        "containerType": "generic",
-                        "element": "p",
-                        "classPreset": "footer_content",
-                        "content": "Copyright (C) 2026, Edrick Sinsuan",
-                        "children": {}
-                    }
-                }
+                "containerType": "double",
+                "classPreset": ["fluid", "footer_copyright"],
+                "element": ["footer", "p"],
+                "content": "Copyright (C) 2026, Edrick Sinsuan"
             }
         }
     }
