@@ -1,61 +1,53 @@
 {
     "title": {
-        "containerType": "href",
-        "classPreset": "navbar_brand",
-        "content": [
-            "hrefRaw",
-            "Edrick Sinsuan",
-            "#",
-            ""
-        ]
+        "container": "href",
+        "class": "navbar-brand display-1 fs-2",
+        "href": "#",
+        "content": "Edrick Sinsuan"
     },
     "toggler": {
-        "containerType": "button",
-        "classPreset": "navbar-toggler",
+        "container": "button",
+        "class": "navbar-toggler",
+        "target": "navbar_content",
         "children": {
             "icon": {
-                "classPreset": "navbar-toggler-icon",
-                "content": " "
+                "class": "navbar-toggler-icon"
             }
         }
     },
     "content": {
-        "containerType": "double",
-        "element": ["div", "ul"],
-        "classPreset": ["navbar_collapse", "navbar_nav"],
+        "id": "navbar_content",
+        "container": "double",
+        "element2": "ul",
+        "class": "collapse navbar-collapse",
+        "class2": "navbar-nav navbar-nav-scroll",
         "children": {
-            "ids": [1, 2, 3],
+            "idx": [1, 2, 3],
             "element": "li",
-            "classPreset": "nav-item",
-            "childrenPerID": {
+            "class": "nav-item",
+            "childrenPerIdx": {
                 "1": {
                     "link": {
-                        "containerType": "href",
-                        "classPreset": "nav-link",
-                        "content": [
-                            "hrefFind",
-                            "main/about"
-                        ]
+                        "container": "href",
+                        "class": "nav-link",
+                        "href": "#about_nav",
+                        "content": "About"
                     }
                 },
                 "2": {
                     "link": {
-                        "containerType": "href",
-                        "classPreset": "nav-link",
-                        "content": [
-                            "hrefFind",
-                            "main/projects"
-                        ]
+                        "container": "href",
+                        "class": "nav-link",
+                        "href": "#projects_nav",
+                        "content": "Projects"
                     }
                 },
                 "3": {
                     "link": {
-                        "containerType": "href",
-                        "classPreset": "nav-link",
-                        "content": [
-                            "hrefFind",
-                            "main/contact"
-                        ]
+                        "container": "href",
+                        "class": "nav-link",
+                        "href": "#contact_nav",
+                        "content": "Contact"
                     }
                 }
             }

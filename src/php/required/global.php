@@ -3,5 +3,5 @@
 /* Root containers data file directory */
 $rootJSONContainerGrpsDir = "src/json/rootContainerGroups.json";
 
-/* Container classes data file directory */
-$containerClassesDir = "src/json/containerClasses.json";
+/* Container templates data file directory */
+$containerTplDir = "src/templates/containersTpl.php";

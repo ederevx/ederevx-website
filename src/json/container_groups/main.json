@@ -1,12 +1,19 @@
 {
-    "ids": ["about", "projects", "contact"],
-    "containerType": "main",
-    "childrenPerID": {
+    "idx": ["about", "projects", "contact"],
+    "container": "main",
+    "class": "m-2 mt-5 p-3 container-lg",
+    "navIdPerIdx": {
+        "about": "about_nav",
+        "projects": "projects_nav", 
+        "contact": "contact_nav"
+    },
+    "childrenPerIdx": {
         "about": {
             "title": {
-                "containerType": "double",
-                "element": ["div", "h1"],
-                "classPreset": ["fluid", "title"],
+                "container": "double",
+                "element2": "h1",
+                "class": "container-fluid", 
+                "class2": "display-3",
                 "content": "About"
             },
             "article": {
@@ -16,9 +23,10 @@
         },
         "projects": {
             "title": {
-                "containerType": "double",
-                "element": ["div", "h1"],
-                "classPreset": ["fluid", "title"],
+                "container": "double",
+                "element2": "h1",
+                "class": "container-fluid", 
+                "class2": "display-3",
                 "content": "Projects"
             },
             "article": {
@@ -28,9 +36,10 @@
         },
         "contact": {
             "title": {
-                "containerType": "double",
-                "element": ["div", "h1"],
-                "classPreset": ["fluid", "title"],
+                "container": "double",
+                "element2": "h1",
+                "class": "container-fluid", 
+                "class2": "display-3",
                 "content": "Contact"
             },
             "article": {

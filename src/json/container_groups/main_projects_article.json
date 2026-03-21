@@ -1,71 +1,62 @@
 {
     "content": {
-        "classPreset": "fluid",
+        "container": "double",
+        "class": "container-fluid",
+        "class2": "row mt-4",
         "children": {
-            "row": {
-                "classPreset": "row",
-                "children": {
-                    "ids": [1, 2, 3, 4],
-                    "containerType": "3by3",
-                    "element": ["div", "div", "h5", "h6", "p"],
-                    "classPreset": [
-                        "card col",
-                        "card_body",
-                        "card_title",
-                        "card_subtitle",
-                        "card_text"
-                    ],
-                    "contentPerID": {
-                        "1": [
-                            "ederevx-website",
-                            "Website",
-                            "Languages: HTML, CSS, JavaScript, PHP"
-                        ],
-                        "2": [
-                            "Android Build Scripts for OnePlus 5T",
-                            "Linux Bash Script",
-                            "Languages: Bash/Shell"
-                        ],
-                        "3": [
-                            "X-FT Kernel for OnePlus 5T",
-                            "Linux Kernel, Version 4.14",
-                            "Languages: C, Makefile, Shell"
-                        ],
-                        "4": [
-                            "X Kernel for OnePlus 5T",
-                            "Linux Kernel, Version 4.4",
-                            "Languages: C, Makefile, Shell"
-                        ]
-                    },
-                    "childrenPerID": {
-                        "1": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://github.com/ederevx/ederevx-website"
-                            }
-                        },
-                        "2": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://github.com/ederevx/android_scripts"
-                            }
-                        },
-                        "3": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://github.com/ederevx/x-ft_kernel_oneplus_msm8998"
-                            }
-                        },
-                        "4": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button",
-                                "content": "https://github.com/ederevx/x_kernel_oneplus_msm8998"
-                            }
-                        }
+            "idx": [1, 2, 3, 4],
+            "container": "href",
+            "class": "btn col-xl-3",
+            "target": "blank_",
+            "hrefPerIdx": {
+                "1": "https://github.com/ederevx/ederevx.us",
+                "2": "https://github.com/ederevx/android_scripts",
+                "3": "https://github.com/ederevx/x-ft_kernel_oneplus_msm8998",
+                "4": "https://github.com/ederevx/x_kernel_oneplus_msm8998"
+            },
+            "childrenPerIdx": {
+                "1": {
+                    "link": {
+                        "container": "card",
+                        "bodyClass": "text-start",
+                        "class": "btn-light h-100",
+                        "subtitleClass": "mb-2 text-muted",
+                        "titleContent": "ederevx.us",
+                        "subtitleContent": "Website",
+                        "textContent": "Languages: HTML, CSS, JavaScript, PHP"
+                    }
+                },
+                "2": {
+                    "link": {
+                        "container": "card",
+                        "bodyClass": "text-start",
+                        "class": "btn-light h-100",
+                        "subtitleClass": "mb-2 text-muted",
+                        "titleContent": "Android Build Scripts for OnePlus 5T",
+                        "subtitleContent": "Linux Bash Script",
+                        "textContent": "Languages: Bash/Shell"
+                    }
+                },
+                "3": {
+                    "link": {
+                        "container": "card",
+                        "bodyClass": "text-start",
+                        "class": "btn-light h-100",
+                        "subtitleClass": "mb-2 text-muted",
+                        "titleContent": "X-FT Kernel for OnePlus 5T",
+                        "subtitleContent": "Linux Kernel, Version 4.14",
+                        "textContent": "Languages: C, Makefile, Shell"
+                    }
+                },
+                "4": {
+                    "link": {
+                        "container": "card",
+                        "bodyClass": "text-start",
+                        "class": "btn-light h-100",
+                        "subtitleClass": "mb-2 text-muted",
+                        "titleContent": "X Kernel for OnePlus 5T",
+                        "subtitleContent": "Linux Kernel, Version 4.4",
+                        "textContent": "Languages: C, Makefile, Shell"
                     }
                 }
             }

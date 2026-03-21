@@ -1,29 +1,33 @@
 {
     "root": {
-        "classPreset": "fluid",
+        "class": "container-fluid",
         "element": "body",
         "children": {
             "nav": {
-                "containerType": "double",
-                "classPreset": ["fluid", "nav_child"],
-                "element": ["nav", "nav"],
+                "container": "double",
+                "class": "container-fluid",
+                "class2": "navbar navbar-expand-lg navbar-light bg-light fixed-top",
+                "element": "nav",
+                "element2": "nav",
                 "children": {
                     "header": {
-                        "classPreset": "nav_header",
+                        "class": "px-5 container-fluid",
                         "element": "header",
                         "childrenDirectory": "src/json/container_groups/nav_header.json"
                     }
                 }
             },
             "main": {
-                "classPreset": "fluid",
+                "class": "container-fluid",
                 "element": "main",
                 "childrenDirectory": "src/json/container_groups/main.json"
             },
             "footer": {
-                "containerType": "double",
-                "classPreset": ["fluid", "footer_copyright"],
-                "element": ["footer", "p"],
+                "container": "double",
+                "class": "container-fluid", 
+                "class2": "text-muted text-center",
+                "element": "footer", 
+                "element2": "p",
                 "content": "Copyright (C) 2026, Edrick Sinsuan"
             }
         }

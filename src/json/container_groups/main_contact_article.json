@@ -1,47 +1,37 @@
 {
     "content": {
-        "classPreset": "fluid",
+        "container": "double",
+        "class": "container-fluid",
+        "class2": "row mt-4",
         "children": {
-            "row": {
-                "classPreset": "row",
-                "children": {
-                    "ids": [1, 2, 3],
-                    "element": "div",
-                    "classPreset": "col",
-                    "childrenPerID": {
-                        "1": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button fluid title2",
-                                "content": [
-                                    "hrefRaw",
-                                    "Github",
-                                    "https://github.com/ederevx"
-                                ]
-                            }
-                        },
-                        "2": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button fluid title2",
-                                "content": [
-                                    "hrefRaw",
-                                    "LinkedIn",
-                                    "https://www.linkedin.com/in/ederevx"
-                                ]
-                            }
-                        },
-                        "3": {
-                            "link": {
-                                "containerType": "href",
-                                "classPreset": "button fluid title2",
-                                "content": [
-                                    "hrefRaw",
-                                    "Email",
-                                    "mailto:evcsinsuan@gmail.com"
-                                ]
-                            }
-                        }
+            "idx": [1, 2, 3],
+            "class": "col-xl-3 m-2",
+            "childrenPerIdx": {
+                "1": {
+                    "link": {
+                        "container": "href",
+                        "class": "btn btn-outline-dark mb-2 container-fluid display-5 fs-2",
+                        "href": "https://github.com/ederevx",
+                        "target": "blank_",
+                        "content": "Github"
+                    }
+                },
+                "2": {
+                    "link": {
+                        "container": "href",
+                        "class": "btn btn-outline-dark mb-2 container-fluid display-5 fs-2",
+                        "href": "https://www.linkedin.com/in/ederevx",
+                        "target": "blank_",
+                        "content": "LinkedIn"
+                    }
+                },
+                "3": {
+                    "link": {
+                        "container": "href",
+                        "class": "btn btn-outline-dark mb-2 container-fluid display-5 fs-2",
+                        "href": "mailto:evcsinsuan@gmail.com",
+                        "target": "blank_",
+                        "content": "Email"
                     }
                 }
             }
